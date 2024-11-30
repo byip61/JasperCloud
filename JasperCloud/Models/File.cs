@@ -17,38 +17,38 @@ public class File
     }
 
     // setters
-    public void set_id(int id)
+    public void SetId(int id)
     {
         this.id = id;
     }
 
-    public void set_user_id(int userID)
+    public void SetUserId(int userID)
     {
         this.userID = userID;
     }
 
-    public void set_data(BinaryData new_data)
+    public void SetData(BinaryData new_data)
     {
         data = new_data;
     }
 
     // getters
-    public int get_id()
+    public int GetId()
     {
         return id;
     }
 
-    public int get_user_id()
+    public int GetUserId()
     {
         return userID;
     }
 
-    public BinaryData get_data()
+    public BinaryData GetData()
     {
         return data;
     }
 
-    public int calculate_size()
+    public int CalculateSize()
     {
         return data.Length;
     }
