@@ -39,7 +39,7 @@ namespace JasperCloud.Controllers
             return substrings;
         }
 
-        public void FindFiles(string query, string directory, bool symbols = false)
+        public Task FindFiles(string query, string directory, bool symbols = false)
         {
             /* TODO: 
              * Connect to database and gather file IDs, make sure found files are linked to the user via user_id.
@@ -57,6 +57,7 @@ namespace JasperCloud.Controllers
             }
 
             fileNames.Clear();
+            fileNames = [];
 
             foreach (string substring in splitQuery)
             {
@@ -72,6 +73,8 @@ namespace JasperCloud.Controllers
                     }
                 }
             }
+
+            return Task.CompletedTask;
         }
     }
 }
