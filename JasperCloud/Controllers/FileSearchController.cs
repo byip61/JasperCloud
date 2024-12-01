@@ -1,11 +1,13 @@
-﻿namespace JasperCloud.Models
+﻿using JasperCloud.Models;
+
+namespace JasperCloud.Controllers
 {
-    public class FileSearch
+    public class FileSearchController
     {
-        public File[]? files;
+        public JasperCloud.Models.File[]? files;
         public List<string>? fileNames;
 
-        public void FindFiles(String query, String directory)
+        public void FindFiles(string query, string directory)
         {
             /* TODO: 
              * Split query so individual words are searched on their own. (partial matches)
@@ -14,7 +16,7 @@
              * Relay search results to the files variable, so that they can be displayed on the frontend.
              */
             // https://stackoverflow.com/questions/51135520/search-for-file-in-c-sharp
-            fileNames = (List<string>?)Directory.EnumerateFiles(directory, "*"+(query)+"*", SearchOption.AllDirectories);
+            fileNames = (List<string>?)Directory.EnumerateFiles(directory, "*" + query + "*", SearchOption.AllDirectories);
         }
     }
 }
