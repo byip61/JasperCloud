@@ -1,12 +1,36 @@
-﻿namespace JasperCloud.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace JasperCloud.Models;
+
+[Table("file_metadata")]
 public class FileMetadata
 {
-    required public string name;
-    required public string fileType;
+    [Key]
+    [Column("file_id")]
+    public int FileId { get; set; }
 
-    public DateTime dateCreated;
-    public DateTime dateModified;
+    [ForeignKey("FileId")]
+    public virtual File File { get; set; }
 
-    public int size = 0x7FFFFFFF;
+    [Column("user_id")]
+    public int UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; }
+
+    [Column("file_name")]
+    public string Name { get; set; }
+
+    [Column("file_extension")]
+    public string Extension{ get; set; }
+
+    [Column("date_created")]
+    public DateTime DateCreated { get; set; }
+
+    [Column("date_modified")]
+    public DateTime DateModified { get; set; }
+
+    [Column("size")]
+    public int Size { get; set; }
 }
