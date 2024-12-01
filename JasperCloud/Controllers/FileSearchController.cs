@@ -1,8 +1,10 @@
-﻿using JasperCloud.Models;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using JasperCloud.Models;
 
 namespace JasperCloud.Controllers
 {
-    public class FileSearchController
+    public class FileSearchController : Controller
     {
         public JasperCloud.Models.File[]? files;
         public List<string>? fileNames;
