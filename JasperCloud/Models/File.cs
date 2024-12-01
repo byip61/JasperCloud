@@ -11,12 +11,6 @@ public class File
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]   
     public int Id { get; set; }
 
-    [Column("user_id")]
-    public int UserId { get; set; }
-
-    [ForeignKey("UserId")]
-    public virtual User User { get; set; }
-
     [Column("file_path")]
     public string? FilePath { get; set; }
 }

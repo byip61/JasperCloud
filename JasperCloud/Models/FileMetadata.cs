@@ -13,6 +13,12 @@ public class FileMetadata
     [ForeignKey("FileId")]
     public virtual File File { get; set; }
 
+    [Column("user_id")]
+    public int UserId { get; set; }
+
+    [ForeignKey("UserId")]
+    public virtual User User { get; set; }
+
     [Column("file_name")]
     public string Name { get; set; }
 

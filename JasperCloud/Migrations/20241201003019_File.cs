@@ -25,18 +25,11 @@ namespace JasperCloud.Migrations
                 {
                     file_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    user_id = table.Column<int>(type: "integer", nullable: false),
                     file_path = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_file", x => x.file_id);
-                    table.ForeignKey(
-                        name: "FK_file_user_information_user_id",
-                        column: x => x.user_id,
-                        principalTable: "user_information",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,6 +37,7 @@ namespace JasperCloud.Migrations
                 columns: table => new
                 {
                     file_id = table.Column<int>(type: "integer", nullable: false),
+                    user_id = table.Column<int>(type: "integer", nullable: false),
                     file_name = table.Column<string>(type: "text", nullable: false),
                     file_extension = table.Column<string>(type: "text", nullable: false),
                     date_created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -59,11 +53,17 @@ namespace JasperCloud.Migrations
                         principalTable: "file",
                         principalColumn: "file_id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_file_metadata_user_information_user_id",
+                        column: x => x.user_id,
+                        principalTable: "user_information",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_file_user_id",
-                table: "file",
+                name: "IX_file_metadata_user_id",
+                table: "file_metadata",
                 column: "user_id");
         }
 

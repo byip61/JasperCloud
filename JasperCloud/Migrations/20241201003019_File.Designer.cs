@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JasperCloud.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241201001320_File")]
+    [Migration("20241201003019_File")]
     partial class File
     {
         /// <inheritdoc />
@@ -38,13 +38,7 @@ namespace JasperCloud.Migrations
                         .HasColumnType("text")
                         .HasColumnName("file_path");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("file");
                 });
@@ -77,7 +71,13 @@ namespace JasperCloud.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("size");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
                     b.HasKey("FileId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("file_metadata");
                 });
@@ -124,17 +124,6 @@ namespace JasperCloud.Migrations
                     b.ToTable("user_information");
                 });
 
-            modelBuilder.Entity("JasperCloud.Models.File", b =>
-                {
-                    b.HasOne("JasperCloud.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("JasperCloud.Models.FileMetadata", b =>
                 {
                     b.HasOne("JasperCloud.Models.File", "File")
@@ -143,7 +132,15 @@ namespace JasperCloud.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("JasperCloud.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("File");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
