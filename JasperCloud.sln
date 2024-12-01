@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1706.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JasperCloud", "JasperCloud\JasperCloud.csproj", "{E1ED1B28-C096-4EDC-A7CD-83361963AFD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JasperCloud.Tests", "JasperCloud.Tests\JasperCloud.Tests.csproj", "{6AA57AB5-8F29-47E6-8330-E0BEAF8EC027}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,14 @@ Global
 		{E1ED1B28-C096-4EDC-A7CD-83361963AFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1ED1B28-C096-4EDC-A7CD-83361963AFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1ED1B28-C096-4EDC-A7CD-83361963AFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2F91DB-1789-4B57-9C0D-1603F29EC702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2F91DB-1789-4B57-9C0D-1603F29EC702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2F91DB-1789-4B57-9C0D-1603F29EC702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2F91DB-1789-4B57-9C0D-1603F29EC702}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA57AB5-8F29-47E6-8330-E0BEAF8EC027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA57AB5-8F29-47E6-8330-E0BEAF8EC027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA57AB5-8F29-47E6-8330-E0BEAF8EC027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA57AB5-8F29-47E6-8330-E0BEAF8EC027}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

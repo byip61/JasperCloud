@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace JasperCloud.ResultModels;
+namespace JasperCloud.RequestModels;
 
-public class LoginResult
+public class LoginRequest
 {
     [JsonPropertyName("username")]
     public string? Username { get; set; }
