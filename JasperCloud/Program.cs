@@ -1,4 +1,6 @@
 ﻿using JasperCloud.Data;
+using JasperCloud.Repository;
+using JasperCloud.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +19,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("JasperCloudDb")));
+
+// add repo scopes
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// add service scopes
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 builder.Services.AddMvc()
         .AddSessionStateTempDataProvider();
