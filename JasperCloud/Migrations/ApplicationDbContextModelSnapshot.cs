@@ -37,7 +37,7 @@ namespace JasperCloud.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("file");
+                    b.ToTable("file", (string)null);
                 });
 
             modelBuilder.Entity("JasperCloud.Models.FileMetadata", b =>
@@ -76,7 +76,7 @@ namespace JasperCloud.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("file_metadata");
+                    b.ToTable("file_metadata", (string)null);
                 });
 
             modelBuilder.Entity("JasperCloud.Models.User", b =>
@@ -118,7 +118,7 @@ namespace JasperCloud.Migrations
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("user_information");
+                    b.ToTable("user_information", (string)null);
                 });
 
             modelBuilder.Entity("JasperCloud.Models.FileMetadata", b =>
