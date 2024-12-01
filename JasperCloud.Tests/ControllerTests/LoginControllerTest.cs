@@ -1,6 +1,4 @@
-﻿using JasperCloud.ResponseModels;
-
-namespace JasperCloud.Tests.ControllerTests;
+﻿namespace JasperCloud.Tests.ControllerTests;
 
 [TestClass]
 public class LoginControllerTest : ControllerBase
