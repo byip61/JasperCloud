@@ -6,7 +6,7 @@ namespace JasperCloud.Controllers
 {
     public class FileSearchController : Controller
     {
-        public JasperCloud.Models.File[]? files;
+        public Models.File[]? files;
         public HashSet<string> fileNames = [];
 
         //
