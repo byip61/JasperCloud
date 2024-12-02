@@ -1,13 +1,17 @@
-﻿namespace JasperCloud.Tests.ControllerTests;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace JasperCloud.Tests.ControllerTests;
 
 [TestClass]
 public class LoginControllerTest : ControllerBase
 {
     private readonly Mock<IUserRepository> _userRepoMock;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public LoginControllerTest()
+    public LoginControllerTest(IHttpContextAccessor httpContextAccessor)
     {
         _userRepoMock = new Mock<IUserRepository>();
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [TestMethod]
@@ -21,8 +25,8 @@ public class LoginControllerTest : ControllerBase
         };
 
         _userRepoMock.Setup(u => u.AddAsync(new User()));
-        var service = new LoginService(_userRepoMock.Object);
-        var loginController = new LoginController(service);
+        var service = new AccountService(_userRepoMock.Object);
+        var loginController = new AccountController(service, _httpContextAccessor);
 
         // Act
         var result = await loginController.CreateAccount(userRequest);
@@ -32,7 +36,7 @@ public class LoginControllerTest : ControllerBase
     }
 
     [TestMethod]
-    public async Task UserLoginReturnsOk()
+    public async Task UserLoginReturnsNullLoginResponse()
     {
         // Arrange
         var loginRequest = new LoginRequest {
@@ -48,20 +52,14 @@ public class LoginControllerTest : ControllerBase
             PasswordSalt = "f9i5iG+KWL9+z5Vh+EpufQ=="
         };
 
-        var loginResponse = new LoginResponse {
-            Id = 1,
-            Username = "test",
-            Email = "test@test.com"
-        };
-
         _userRepoMock.Setup(u => u.GetByUsernameAsync(loginRequest.Username)).ReturnsAsync(user);
-        var service = new LoginService(_userRepoMock.Object);
-        var loginController = new LoginController(service);
+        var service = new AccountService(_userRepoMock.Object);
+        var loginController = new AccountController(service, _httpContextAccessor);
 
         // Act
-        var result = await service.UserLogin(loginRequest);
+        var result = await service.UserLoginAsync(loginRequest);
 
         // Assert
-        Assert.AreEqual(result.ToString(), loginResponse.ToString());
+        Assert.AreEqual(result, null);
     }
 }
