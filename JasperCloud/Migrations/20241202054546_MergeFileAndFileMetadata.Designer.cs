@@ -3,6 +3,7 @@ using System;
 using JasperCloud.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace JasperCloud.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241202054546_MergeFileAndFileMetadata")]
+    partial class MergeFileAndFileMetadata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace JasperCloud.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("JasperCloud.Models.AIConsent", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
-
-                    b.Property<bool>("IsConsented")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_consented");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("ai_consent");
-                });
 
             modelBuilder.Entity("JasperCloud.Models.File", b =>
                 {
@@ -60,7 +48,7 @@ namespace JasperCloud.Migrations
                         .HasColumnName("size");
 
                     b.Property<DateTime>("UploadDate")
-                        .HasColumnType("timestamp without time zone")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("upload_date");
 
                     b.HasKey("UserId", "Name", "Extension");
@@ -108,17 +96,6 @@ namespace JasperCloud.Migrations
                         .IsUnique();
 
                     b.ToTable("user_information");
-                });
-
-            modelBuilder.Entity("JasperCloud.Models.AIConsent", b =>
-                {
-                    b.HasOne("JasperCloud.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("JasperCloud.Models.File", b =>

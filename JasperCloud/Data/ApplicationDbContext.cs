@@ -7,7 +7,7 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Models.File> Files { get; set; }
-    public DbSet<FileMetadata> FileMetadatas { get; set; }
+    public DbSet<AIConsent> AIConsents { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)  
         : base(options)
@@ -16,6 +16,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder);
+        // composite key for file table
+        builder.Entity<Models.File>().HasKey(f => new { f.UserId, f.Name, f.Extension });
     }
 }
