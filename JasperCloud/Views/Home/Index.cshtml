@@ -1,9 +1,81 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Files";
 }
 
-<div class="text-center">
-    <h1 class="display-4">test header</h1>
-    <p>test paragraph</p>
+<style>
+    #container {
+        width: 33px;
+    }
+
+    #image {
+        width: 100%;
+    }
+
+    #text {
+        font-size: 18px;
+        color: #046a38;
+        text-align: justify;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        z-index: 1;
+        top: 56px;
+        left: 0;
+        background-color: #42c588;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+        .sidenav a {
+            padding: 6px 6px 6px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: white;
+            display: block;
+        }
+
+    .file_block {
+        padding: 14px 80px 0 47px;
+        font-size: 18px;
+        background-color: white;
+        color: #046a38;
+        line-height: 1.2;
+        text-align: justify;
+        border: 5px solid #046a38;
+        width: 33px;
+        height: 128px;
+    }
+
+        .file_block:hover {
+            background-color: #42c588;
+        }
+
+        .file_block:active {
+            background-color: #47d4a4;
+        }
+
+    .main {
+        margin-left: 200px; /* Same as the width of the sidenav */
+    }
+
+</style>
+
+<div id="mySidenav" class="sidenav">
+    <a href="#"><img src="@Url.Content("~/data/images/ICON_files.png")" width="112" height="112" /></a>
+    <a href="../Home/Account"><img src="@Url.Content("~/data/images/ICON_user.png")" width="112" height="112" /></a>
+    <a href="#"><img src="@Url.Content("~/data/images/ICON_exit.png")" width="81" height="81" /></a>
+
 </div>
 
+<div class="file_block">
+    <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
+    <p id="text">.png&#10;MyFile</p>
+</div>
+
+<div class="file_block">
+    <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
+    <p id="text">.pdf&#10;OtherFile</p>
+</div>
