@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using JasperCloud.Models;
+using JasperCloud.ViewModels;
 
 namespace JasperCloud.Controllers;
 
@@ -23,12 +24,12 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Main()
+    public IActionResult Privacy()
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult Account()
     {
         return View();
     }

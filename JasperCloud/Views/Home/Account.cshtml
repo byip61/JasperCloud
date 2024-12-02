@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "User Settings";
+}
+
+
+<style>
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #046a38;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+
+        button:hover {
+            background-color: #42c588;
+        }
+
+        button:active {
+            background-color: #47d4a4;
+        }
+
+    .sidenav {
+        height: 100%;
+        width: 200px;
+        position: fixed;
+        z-index: 1;
+        top: 56px;
+        left: 0;
+        background-color: #42c588;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+        .sidenav a {
+            padding: 6px 6px 6px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: white;
+            display: block;
+        }
+
+    .main {
+        margin-left: 200px; /* Same as the width of the sidenav */
+    }
+
+</style>
+
+<div id="mySidenav" class="sidenav">
+    <a href="../"><img src="@Url.Content("~/data/images/ICON_files.png")" width="112" height="112" /></a>
+    <a href="#"><img src="@Url.Content("~/data/images/ICON_user.png")" width="112" height="112" /></a>
+    <a href="#"><img src="@Url.Content("~/data/images/ICON_exit.png")" width="81" height="81" /></a>
+
+</div>
+
+<div class="text-center">
+    <h1 class="display-4">User Settings</h1>
+</div>
+
+<div class="container">
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Change Password" name="psw" required>
+
+    <button>Submit</button>
+</div>
