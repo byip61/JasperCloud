@@ -1,4 +1,4 @@
-﻿namespace JasperCloud.Models;
+﻿namespace JasperCloud.ViewModels;
 
 public class ErrorViewModel
 {
