@@ -1,15 +1,11 @@
-﻿using JasperCloud.Data;
-using JasperCloud.Repository;
-using JasperCloud.Service;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using JasperCloud.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -18,17 +14,22 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.LoginPath = "/Login/Login";
     });
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("JasperCloudDb")));
+// dependency injection
+builder.Services
+    .AddInfrastructure(builder.Configuration)
+    .AddRepositories()
+    .AddServices();
 
-// add repo scopes
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddSession(options => 
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(90);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
-// add service scopes
-builder.Services.AddScoped<ILoginService, LoginService>();
-
-builder.Services.AddMvc()
-        .AddSessionStateTempDataProvider();
-builder.Services.AddSession();
+// session
+builder.Services.AddMvc();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
