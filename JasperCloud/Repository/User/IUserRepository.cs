@@ -35,4 +35,12 @@ public interface IUserRepository
     /// <param name="salt"></param>
     /// <returns>True if successful, false if failed.</returns>
     Task<bool> UpdatePasswordAsync(int userId, string hash, string salt);
+
+    /// <summary>
+    /// Gets the user by username or email.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="email"></param>
+    /// <returns>User or null if not exists.</returns>
+    Task<User?> GetByUsernameOrEmailAsync(string username, string email);
 }

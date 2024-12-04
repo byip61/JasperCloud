@@ -1,65 +1,112 @@
-using JasperCloud.RequestModels;
+using JasperCloud.ViewModels;
 using JasperCloud.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JasperCloud.Controllers;
 
-[Route("api/account/")]
+[Authorize]
+[Route("[controller]/[action]")]
 public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AccountController(IAccountService accountService, IHttpContextAccessor httpContextAccessor)
+    public AccountController(IAccountService accountService)
     {
         _accountService = accountService;
-        _httpContextAccessor = httpContextAccessor;
     }
 
+    [AllowAnonymous]
     [HttpGet]
-    [Route("/login")]
     public IActionResult Login()
     {
         return View();
     }
 
-    [HttpPost]
-    [Route("createaccount")]
-    public async Task<IActionResult> CreateAccount(UserRequest userRequest)
+    [AllowAnonymous]
+    [HttpGet]
+    public IActionResult CreateAccount()
     {
-        await _accountService.CreateAccountAsync(userRequest);
-
-        return StatusCode(200);
+        return View();
     }
 
     [HttpGet]
-    [Route("login")]
-    public async Task<bool> UserLogin(LoginRequest loginRequest)
+    public IActionResult Account()
     {
-        var session = _httpContextAccessor.HttpContext.Session;
-        var user = await _accountService.UserLoginAsync(loginRequest);
+        return View();
+    }
 
-        if (user == null) return false;
+    [AllowAnonymous]
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateAccountViewModel newUser)
+    {
+        var isUserExist = await _accountService.CheckUserExistsAsync(newUser.Username!, newUser.Email!);
+
+        if (isUserExist)
+        {
+            TempData["ErrorMessage"] = "An account with this email already exists.";
+
+            return Redirect("/Account/CreateAccount");
+        }
         else
         {
-            session.SetInt32("userid", user.Id);
-            session.SetString("username", user.Username!);
-            session.SetString("email", user.Email!);
+            await _accountService.CreateAccountAsync(newUser);
+            TempData["AccountCreated"] = "Account created! You may login now.";
+
+            return Redirect("/Account/Login");
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> UserLogin(LoginViewModel loginViewModel)
+    {
+        var user = await _accountService.UserLoginAsync(loginViewModel);
+
+        if (user == null) return Redirect("/Account/Login");
+        else
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user!.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username!),
+                new Claim(ClaimTypes.Email, user.Email!),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme, 
+                claimsPrincipal);
         }
 
-        return true;
+        return Redirect("/Home/Index");
     }
 
     [HttpPost]
-    [Route("changepassword")]
     public async Task<IActionResult> ChangePassword(string password)
     {
-        var session = _httpContextAccessor.HttpContext.Session;
-        var userId = session.GetInt32("userid");
+        var user = HttpContext.User;
+        var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = Convert.ToInt32(userIdStr);
 
-        var isPassChanged = await _accountService.ChangePasswordAsync(userId!.Value, password);
+        var isPassChanged = await _accountService.ChangePasswordAsync(userId, password);
 
-        if (isPassChanged) return StatusCode(200);
-        else return StatusCode(400);
+        if (isPassChanged) return await UserLogout();
+        else return Redirect("/Account/Account");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> UserLogout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        return Redirect("/Account/Login");
     }
 }

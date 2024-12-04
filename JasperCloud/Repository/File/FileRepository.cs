@@ -49,4 +49,20 @@ public class FileRepository : IFileRepository
             throw new DbUpdateException(error.Message);
         }
     }
+
+    public async Task DeleteFileAsync(Guid fileGuid)
+    {
+        try
+        {
+            var file = await GetFileByFileGuidAsync(fileGuid);
+
+            _dbContext.Files.Attach(file);
+            _dbContext.Files.Remove(file);
+            await _dbContext.SaveChangesAsync();
+        }
+        catch (DbUpdateException error)
+        {
+            throw new DbUpdateException(error.Message);
+        }
+    }
 }

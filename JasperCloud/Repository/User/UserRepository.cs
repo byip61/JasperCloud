@@ -45,4 +45,11 @@ public class UserRepository : IUserRepository
 
         return true;
     }
+
+    public async Task<User?> GetByUsernameOrEmailAsync(string username, string email)
+    {
+        return await _dbContext.Users
+            .Where(u => u.Username == username || u.Email == email)
+            .FirstOrDefaultAsync();
+    }
 }

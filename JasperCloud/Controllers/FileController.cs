@@ -1,32 +1,56 @@
-using JasperCloud.RequestModels;
+using System.Security.Claims;
 using JasperCloud.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JasperCloud.Controllers;
 
-[Route("api/file/")]
+[Route("[controller]/[action]")]
 public class FileController : Controller
 {
     private readonly IFileService _fileService;
     private readonly IBlobService _blobService;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public FileController(IFileService fileService, IBlobService blobService, IHttpContextAccessor httpContextAccessor)
+    public FileController(IFileService fileService, IBlobService blobService)
     {
         _fileService = fileService;
         _blobService = blobService;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost]
-    [Route("upload")]
-    public async Task<IActionResult> UploadFile(IFormFile file)
+    public async Task<IActionResult> Upload(IFormFile file)
     {
-        var session = _httpContextAccessor.HttpContext.Session;
-        var userId = session.GetInt32("userid");
+        var user = HttpContext.User;
+        var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = Convert.ToInt32(userIdStr);
         
-        await _fileService.UploadFileAsync(userId!.Value, file, _blobService);
+        await _fileService.UploadFileAsync(userId, file, _blobService);
 
-        return StatusCode(200);
+        return Redirect("/Home/Index");
+    }
+
+    [HttpGet]
+    public async Task<IResult> Download(Guid fileGuid)
+    {
+        var user = HttpContext.User;
+        var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = Convert.ToInt32(userIdStr);
+        
+        var (fileResponse, file) = await _fileService.DownloadFileAsync(userId, fileGuid, _blobService);
+
+        if (fileResponse == null || file == null) throw new InvalidOperationException("Failed to download file.");
+
+        var fileDownloadName = file!.Name + file!.Extension;
+
+        return Results.File(fileResponse!.Stream, fileResponse.ContentType, fileDownloadName);
+    }
+
+    [HttpDelete]
+    public async Task Delete(Guid fileGuid)
+    {
+        var user = HttpContext.User;
+        var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = Convert.ToInt32(userIdStr);
+        
+        await _fileService.DeleteFileAsync(userId, fileGuid, _blobService);
     }
 }

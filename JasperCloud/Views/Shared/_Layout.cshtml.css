@@ -1,6 +1,11 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+:root {
+  --mcgreen: #036a38;
+  --mclightgreen: #a3d031;
+}
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -47,3 +52,42 @@ button.accept-policy {
   line-height: 60px;
 }
 
+.main-footer {
+  margin-left: 15px;
+}
+
+.navbar-brandname {
+  text-align: center;
+  padding: 0 15px;
+  margin: 0;
+  font-size: 24px;
+  /* padding-left: 15px; */
+}
+
+.nav-item-search {
+  margin: 0 auto;
+}
+
+.nav-item-logout {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.form-search-file {
+  display: inline-block;
+}
+
+.form-search-file input[type=text] {
+  border: 2px;
+  border-style: inset;
+  border-radius: 10px;
+  padding: 5px;
+  width: auto;
+  min-width: 25vw;
+}
+
+.form-search-file button {
+  border: none;
+  background: none;
+  background-color: var(--mcgreen);
+}
