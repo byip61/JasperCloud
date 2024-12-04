@@ -43,23 +43,28 @@ public class FileService : IFileService
         return fileGuid;
     }
 
-    public async Task<FileResponse?> DownloadFileAsync(int userId, Guid fileGuid, IBlobService blobService)
+    public async Task<(FileResponse?, Models.File?)> DownloadFileAsync(int userId, Guid fileGuid, IBlobService blobService)
     {
-        var fileUserId = _fileRepo.GetUserIdByFileGuidAsync(fileGuid);
+        var file = await _fileRepo.GetFileByFileGuidAsync(fileGuid);
+        var fileUserId = file.UserId;
 
-        if (fileUserId == null) return null;
-        else if (userId != Convert.ToInt32(fileUserId)) return null;
+        if (userId != Convert.ToInt32(fileUserId)) return (null, null);
 
-        return await blobService.DownloadAsync(fileGuid);
+        var fileResponse = await blobService.DownloadAsync(fileGuid);
+
+        if (fileResponse == null) return (null, null);
+
+        return (fileResponse, file);
     }
 
     public async Task<bool> DeleteFileAsync(int userId, Guid fileGuid, IBlobService blobService)
     {
-        var fileUserId = _fileRepo.GetUserIdByFileGuidAsync(fileGuid);
+        var file = await _fileRepo.GetFileByFileGuidAsync(fileGuid);
+        var fileUserId = file.UserId;
 
-        if (fileUserId == null) return false;
-        else if (userId != Convert.ToInt32(fileUserId)) return false;
+        if (userId != Convert.ToInt32(fileUserId)) return false;
 
+        await _fileRepo.DeleteFileAsync(fileGuid);
         await blobService.DeleteAsync(fileGuid);
 
         return true;

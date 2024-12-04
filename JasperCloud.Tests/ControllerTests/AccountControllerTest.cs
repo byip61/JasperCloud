@@ -3,22 +3,20 @@
 namespace JasperCloud.Tests.ControllerTests;
 
 [TestClass]
-public class LoginControllerTest : ControllerBase
+public class AccountControllerTest : ControllerBase
 {
     private readonly Mock<IUserRepository> _userRepoMock;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public LoginControllerTest(IHttpContextAccessor httpContextAccessor)
+    public AccountControllerTest()
     {
         _userRepoMock = new Mock<IUserRepository>();
-        _httpContextAccessor = httpContextAccessor;
     }
 
     [TestMethod]
     public async Task CreateAccountReturnsOk()
     {
         // Arrange
-        var userRequest = new UserRequest {
+        var newUser = new CreateAccountViewModel {
             Username = "test",
             Email = "test@mail.com",
             Password = "password123"
@@ -26,10 +24,10 @@ public class LoginControllerTest : ControllerBase
 
         _userRepoMock.Setup(u => u.AddAsync(new User()));
         var service = new AccountService(_userRepoMock.Object);
-        var loginController = new AccountController(service, _httpContextAccessor);
+        var loginController = new AccountController(service);
 
         // Act
-        var result = await loginController.CreateAccount(userRequest);
+        var result = await loginController.Create(newUser);
 
         // Assert
         Assert.IsTrue(result is StatusCodeResult);
@@ -39,7 +37,7 @@ public class LoginControllerTest : ControllerBase
     public async Task UserLoginReturnsNullLoginResponse()
     {
         // Arrange
-        var loginRequest = new LoginRequest {
+        var loginRequest = new LoginViewModel {
             Username = "test",
             Password = "password123"
         };
@@ -54,7 +52,7 @@ public class LoginControllerTest : ControllerBase
 
         _userRepoMock.Setup(u => u.GetByUsernameAsync(loginRequest.Username)).ReturnsAsync(user);
         var service = new AccountService(_userRepoMock.Object);
-        var loginController = new AccountController(service, _httpContextAccessor);
+        var loginController = new AccountController(service);
 
         // Act
         var result = await service.UserLoginAsync(loginRequest);

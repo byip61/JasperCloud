@@ -1,13 +1,13 @@
 using JasperCloud.Algorithms;
 using JasperCloud.Models;
 using JasperCloud.Repository;
-using JasperCloud.RequestModels;
+using JasperCloud.ViewModels;
 using JasperCloud.ResponseModels;
 
 namespace JasperCloud.Service;
 
 /// <summary>
-/// Service for Login
+/// Service for Account
 /// </summary>
 public class AccountService : IAccountService
 {
@@ -18,12 +18,12 @@ public class AccountService : IAccountService
         _userRepo = userRepo;
     }
 
-    public async Task CreateAccountAsync(UserRequest userResult)
+    public async Task CreateAccountAsync(CreateAccountViewModel newUser)
     {
-        var (hash, salt) = Password.Hash(userResult.Password!);
+        var (hash, salt) = Password.Hash(newUser.Password!);
         User user = new User {
-            Username = userResult.Username!,
-            Email = userResult.Email!,
+            Username = newUser.Username!,
+            Email = newUser.Email!,
             PasswordHash = hash,
             PasswordSalt = salt
         };
@@ -31,15 +31,15 @@ public class AccountService : IAccountService
         await _userRepo.AddAsync(user);
     }
 
-    public async Task<LoginResponse?> UserLoginAsync(LoginRequest loginResult)
+    public async Task<LoginResponse?> UserLoginAsync(LoginViewModel loginViewModel)
     {
         try 
         {
-            var user = await _userRepo.GetByUsernameAsync(loginResult.Username!);
+            var user = await _userRepo.GetByUsernameAsync(loginViewModel.Username!);
 
             if (user == null) return null;
 
-            var isCorrectPass = Password.CheckMatch(loginResult.Password!, user.PasswordHash, user.PasswordSalt);
+            var isCorrectPass = Password.CheckMatch(loginViewModel.Password!, user.PasswordHash, user.PasswordSalt);
 
             if (!isCorrectPass) return null;
 
@@ -62,5 +62,13 @@ public class AccountService : IAccountService
         var (hash, salt) = Password.Hash(password);
 
         return await _userRepo.UpdatePasswordAsync(userId, hash, salt);
+    }
+
+    public async Task<bool> CheckUserExistsAsync(string username, string email)
+    {
+        var user = await _userRepo.GetByUsernameOrEmailAsync(username, email);
+
+        if (user == null) return false;
+        else return true;
     }
 }

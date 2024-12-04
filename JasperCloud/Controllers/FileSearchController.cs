@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using JasperCloud.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace JasperCloud.Controllers
 {

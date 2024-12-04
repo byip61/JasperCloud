@@ -1,5 +1,3 @@
-using JasperCloud.ResponseModels;
-
 namespace JasperCloud.Repository;
 
 /// <summary>
@@ -27,4 +25,5 @@ public interface IFileRepository
     /// <param name="file"></param>
     Task AddFileAsync(Models.File file);
 
+    Task DeleteFileAsync(Guid fileGuid);
 }

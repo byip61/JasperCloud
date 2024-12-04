@@ -21,7 +21,7 @@ public interface IFileService
     /// <param name="fileGuid"></param>
     /// <param name="blobService"></param>
     /// <returns>FileResponse record.</returns>
-    Task<FileResponse?> DownloadFileAsync(int userId, Guid fileGuid, IBlobService blobService);
+    Task<(FileResponse?, Models.File?)> DownloadFileAsync(int userId, Guid fileGuid, IBlobService blobService);
 
     /// <summary>
     /// Deletes file from server.
