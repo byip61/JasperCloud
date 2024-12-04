@@ -1,4 +1,9 @@
-﻿html {
+﻿:root {
+  --mcgreen: #036a38;
+  --mclightgreen: #a3d031;
+}
+
+html {
   font-size: 14px;
 }
 
@@ -19,4 +24,31 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.dz-preview, .dz-file-preview {
+  display: none;
+}
+
+.dz-message {
+
+  border-radius: 15px;
+}
+
+#uploader.dropzone.dz-clickable {
+  position: absolute;
+  right: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.navbar-logo {
+  background-color: var(--mclightgreen);
+  border-radius: 15px;
+  width: 64px;
+  height: 64px;
 }

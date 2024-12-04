@@ -1,0 +1,47 @@
+@model JasperCloud.ViewModels.CreateAccountViewModel
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        alert('@TempData["ErrorMessage"]');
+    </script>
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/mc-logo.ico" sizes="64x64">
+</head>
+
+<body>
+    <main>
+        <section>
+            <img class="mc-logo" src="~/data/images/mc-logo.png">
+        </section>
+        
+        @using (Html.BeginForm("Create", "Account", FormMethod.Post))
+        {
+            <header>
+                <h1>Create Account</h1>
+            </header>
+
+            <section class="login-form">
+                <div>
+                    @Html.LabelFor(l => l.Username)
+                    @Html.TextBoxFor(l => l.Username, new { placeholder = "Enter Username" })
+
+                    @Html.LabelFor(l => l.Email)
+                    @Html.TextBoxFor(l => l.Email, new { @type = "email", placeholder = "Enter Email" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+
+                    @Html.LabelFor(l => l.Password)
+                    @Html.TextBoxFor(l => l.Password, new { placeholder = "Enter Password" })
+                </div>
+            </section>
+
+            <section class="create-account-btn">
+                <input class="btn-nav-to-login" type="button" value="Go to Login" onclick="location.href='@Url.Action("Login", "Account")'"/>
+                <input class="btn btn-create-account" type="submit" value="Create Account"/>
+            </section>
+        }
+    </main>
+</body>

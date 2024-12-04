@@ -1,0 +1,44 @@
+@model JasperCloud.ViewModels.LoginViewModel
+
+@if (TempData["AccountCreated"] != null)
+{
+    <script>
+        alert('@TempData["AccountCreated"]');
+    </script>
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="icon" type="image/x-icon" href="~/mc-logo.ico" sizes="64x64">
+</head>
+
+<body>
+    <main>
+        <section>
+            <img class="mc-logo" src="~/data/images/mc-logo.png">
+        </section>
+        
+        @using (Html.BeginForm("UserLogin", "Account", FormMethod.Get))
+        {
+            <header>
+                <h1>Login</h1>
+            </header>
+
+            <section class="login-form">
+                <div>
+                    @Html.LabelFor(l => l.Username)
+                    @Html.TextBoxFor(l => l.Username, new { placeholder = "Enter Username" })
+
+                    @Html.LabelFor(l => l.Password)
+                    @Html.PasswordFor(l => l.Password, new { placeholder = "Enter Password" })
+                </div>
+            </section>
+
+            <section class="login-btn">
+                <input class="btn btn-nav-to-create-account" type="button" value="Create New Account"
+                    onclick="location.href='@Url.Action("CreateAccount", "Account")'"/>
+                <input class="btn btn-login" type="submit" value="Login"/>
+            </section>
+        }
+    </main>
+</body>

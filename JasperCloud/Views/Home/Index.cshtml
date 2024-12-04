@@ -1,81 +1,49 @@
 ﻿@{
     ViewData["Title"] = "Files";
+    Layout = "_Layout";
 }
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script>
+        Dropzone.options.myDropzone = {
+            dictDefaultMessage: "Upload File",
+            createImageThumbnails: false,
 
-<style>
-    #container {
-        width: 33px;
-    }
+            init: function() {
+                var myDropzone = this;
 
-    #image {
-        width: 100%;
-    }
+                this.on("success", function(file, response) {
+                    this.removeFile(file);
+                });
 
-    #text {
-        font-size: 18px;
-        color: #046a38;
-        text-align: justify;
-    }
-
-    .sidenav {
-        height: 100%;
-        width: 200px;
-        position: fixed;
-        z-index: 1;
-        top: 56px;
-        left: 0;
-        background-color: #42c588;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
-
-        .sidenav a {
-            padding: 6px 6px 6px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: white;
-            display: block;
+                this.on("error", function(file, response) {
+                    alert("Error uploading the file.");
+                });
+            }
         }
+    </script>
+</head>
 
-    .file_block {
-        padding: 14px 80px 0 47px;
-        font-size: 18px;
-        background-color: white;
-        color: #046a38;
-        line-height: 1.2;
-        text-align: justify;
-        border: 5px solid #046a38;
-        width: 33px;
-        height: 128px;
-    }
+<body>
+    <form id="form" method="post" enctype="multipart/form-data" data-pasley-validate class="form-horizontal form-label-left">
+        <main>
+            <div action="/File/Upload" class="dropzone" id="uploader">
+                <button class="dz-message" data-dz-message><span>Upload File</span></button>
+            </div>
+        </main>
+    </form>
+</body>
 
-        .file_block:hover {
-            background-color: #42c588;
-        }
+<div class="file-body">
+    @* <div class="file_block">
+        <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
+        <p id="text">.png&#10;MyFile</p>
+    </div> *@
 
-        .file_block:active {
-            background-color: #47d4a4;
-        }
-
-    .main {
-        margin-left: 200px; /* Same as the width of the sidenav */
-    }
-
-</style>
-
-<div id="mySidenav" class="sidenav">
-    <a href="#"><img src="@Url.Content("~/data/images/ICON_files.png")" width="112" height="112" /></a>
-    <a href="../Home/Account"><img src="@Url.Content("~/data/images/ICON_user.png")" width="112" height="112" /></a>
-    <a href="#"><img src="@Url.Content("~/data/images/ICON_exit.png")" width="81" height="81" /></a>
-
-</div>
-
-<div class="file_block">
-    <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
-    <p id="text">.png&#10;MyFile</p>
-</div>
-
-<div class="file_block">
-    <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
-    <p id="text">.pdf&#10;OtherFile</p>
+    <div class="file_block">
+        <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
+        <p id="extension">.pdf</p>
+        <p id="filename">OtherFile</p>
+    </div>
 </div>
