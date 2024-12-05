@@ -1,0 +1,53 @@
+:root {
+  --mcgreen: #036a38;
+  --mclightgreen: #a3d031;
+  --darker-mcgreen: rgb(1, 43, 0);
+}
+
+.form-new-password input[type=text] {
+  width: 100%;
+  padding: 12px 16px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+.form-new-password input[type=submit] {
+  padding:5px 15px; 
+  width: 300px;
+  background-color: var(--mcgreen);
+  color: black;
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 15px; 
+  margin-bottom: 15px;
+}
+
+.form-new-password input[type=submit]:hover {
+  background-color: var(--darker-mcgreen);
+  color: white;
+}
+
+.form-new-password h2 {
+  text-align: center;
+}
+
+.form-new-password {
+  vertical-align: middle;
+}
+
+main {
+  display: flex;
+  margin: 0px auto;
+  margin-top: 15%;
+  justify-content: space-around;
+  align-items: center;
+  text-align: left;
+  border-radius: 15px;
+  max-height: 65%;
+  max-width: 65%;
+  box-sizing: border-box;
+}

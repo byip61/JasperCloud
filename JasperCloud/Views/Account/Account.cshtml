@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "User Settings";
+    ViewData["Title"] = "Account";
     Layout = "_Layout";
 }
 
@@ -7,20 +7,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
 </head>
-<div class="container">
-    @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post))
-    {
-        <div class="text-center">
-            <h1 class="display">Change Password</h1>
-        </div> 
-        <div class="change-password-form">
-            <tr>
-                <label for="username"><b>Enter New Password</b></label>
-                <td>@Html.Password("password")</td>
-        </div>
 
-        <div class="change-password-btn">
-            <input class="btn btn-info" type="submit" name="Submit"/>
-        </div>
-    }
-</div>
+<body>
+    <main class="change-password">
+        @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post, new { @class = "form-new-password" }))
+        {
+            <h2>Change Password</h2>
+            <input type="text" id="input-password" name="password" placeholder="Enter new password..."/>
+            <input type="submit" value="Change Password">
+        }
+    </main>
+</body>
