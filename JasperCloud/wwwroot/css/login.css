@@ -1,6 +1,7 @@
 :root {
   --mcgreen: #036a38;
   --mclightgreen: #a3d031;
+  --darker-mcgreen: rgb(1, 43, 0);
 }
 
 body {
@@ -42,11 +43,17 @@ input[type=submit], input[type=button] {
   padding:5px 15px; 
   width: 300px;
   background: var(--mcgreen); 
+  color: black;
   border:0 none;
   cursor:pointer;
   -webkit-border-radius: 5px;
   border-radius: 15px; 
   margin-bottom: 15px;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+  background-color: var(--darker-mcgreen);
+  color: white;
 }
 
 .login-form {
