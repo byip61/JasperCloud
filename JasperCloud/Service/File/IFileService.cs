@@ -31,4 +31,11 @@ public interface IFileService
     /// <param name="blobService"></param>
     /// <returns>True if succeeded; false if failed.</returns>
     Task<bool> DeleteFileAsync(int userId, Guid fileGuid, IBlobService blobService);
+
+    /// <summary>
+    /// Gets all files by user ID.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>List of files or null.</returns>
+    Task<List<Models.File>?> GetAllFilesByUserIdAsync(int userId);
 }

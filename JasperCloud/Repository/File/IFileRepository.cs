@@ -25,5 +25,16 @@ public interface IFileRepository
     /// <param name="file"></param>
     Task AddFileAsync(Models.File file);
 
+    /// <summary>
+    /// Deletes file from database.
+    /// </summary>
+    /// <param name="fileGuid"></param>
     Task DeleteFileAsync(Guid fileGuid);
+
+    /// <summary>
+    /// Gets all files by user ID.
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>List of all files from user or null.</returns>
+    Task<List<Models.File>?> GetAllByUserId(int userId);
 }

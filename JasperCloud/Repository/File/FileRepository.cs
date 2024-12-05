@@ -16,12 +16,10 @@ public class FileRepository : IFileRepository
     }
 
     public async Task<int?> GetUserIdByFileGuidAsync(Guid fileGuid)
-    {
-        return await _dbContext.Files
+        => await _dbContext.Files
             .Where(f => f.FileGuid == fileGuid)
             .Select(f => f.UserId)
             .FirstOrDefaultAsync();
-    }
 
     public async Task<Models.File> GetFileByFileGuidAsync(Guid fileGuid)
     {
@@ -65,4 +63,7 @@ public class FileRepository : IFileRepository
             throw new DbUpdateException(error.Message);
         }
     }
+
+    public async Task<List<Models.File>?> GetAllByUserId(int userId)
+        => await _dbContext.Files.Where(f => f.UserId == userId).ToListAsync();
 }

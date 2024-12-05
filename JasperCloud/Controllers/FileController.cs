@@ -25,32 +25,34 @@ public class FileController : Controller
         
         await _fileService.UploadFileAsync(userId, file, _blobService);
 
-        return Redirect("/Home/Index");
+        return RedirectToAction("Index", "Home");
     }
 
     [HttpGet]
-    public async Task<IResult> Download(Guid fileGuid)
+    public async Task<IActionResult> Download(Guid fileGuid)
     {
         var user = HttpContext.User;
         var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var userId = Convert.ToInt32(userIdStr);
-        
-        var (fileResponse, file) = await _fileService.DownloadFileAsync(userId, fileGuid, _blobService);
 
+        var (fileResponse, file) = await _fileService.DownloadFileAsync(userId, fileGuid, _blobService);
+            
         if (fileResponse == null || file == null) throw new InvalidOperationException("Failed to download file.");
 
         var fileDownloadName = file!.Name + file!.Extension;
 
-        return Results.File(fileResponse!.Stream, fileResponse.ContentType, fileDownloadName);
+        return File(fileResponse!.Stream, fileResponse.ContentType, fileDownloadName);
     }
 
-    [HttpDelete]
-    public async Task Delete(Guid fileGuid)
+    [HttpPost]
+    public async Task<IActionResult> Delete(Guid fileGuid)
     {
         var user = HttpContext.User;
         var userIdStr = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         var userId = Convert.ToInt32(userIdStr);
         
         await _fileService.DeleteFileAsync(userId, fileGuid, _blobService);
+
+        return Redirect("/Home/Index");
     }
 }
