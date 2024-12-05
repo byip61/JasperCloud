@@ -1,27 +1,32 @@
-﻿@{
+﻿@model IEnumerable<JasperCloud.Models.File>
+@{
     ViewData["Title"] = "Files";
     Layout = "_Layout";
 }
 <head>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/file-icon-vectors/dist/file-icon-square-o.min.css" />
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="~/js/index.js"></script>
     <script>
-        Dropzone.options.myDropzone = {
-            dictDefaultMessage: "Upload File",
-            createImageThumbnails: false,
-
-            init: function() {
-                var myDropzone = this;
-
-                this.on("success", function(file, response) {
-                    this.removeFile(file);
-                });
-
-                this.on("error", function(file, response) {
-                    alert("Error uploading the file.");
-                });
+        Dropzone.autoDiscover = false;
+        const uploader = new Dropzone("#uploader", {
+            url: "/File/Upload",
+            method: "post",
+            paramName: "file", 
+            success: function(file, response) {
+                console.log("File uploaded successfully.")
+                window.location.reload();
+            },
+            error: function(file, response) {
+                alert("Error uploading the file.");
             }
         }
+
+        document.querySelector('.dz-message button').addEventListener('click', function() {
+            uploader.hiddenFileInput.click();
+        });
     </script>
 </head>
 
@@ -29,21 +34,36 @@
     <form id="form" method="post" enctype="multipart/form-data" data-pasley-validate class="form-horizontal form-label-left">
         <main>
             <div action="/File/Upload" class="dropzone" id="uploader">
-                <button class="dz-message" data-dz-message><span>Upload File</span></button>
+                <button type="button" class="dz-message" data-dz-message><span>Upload File</span></button>
             </div>
         </main>
     </form>
+    <section>
+        <div id="download-delete-buttons" style="display: none;">
+            <form id="form-download" method="get" asp-controller="File" asp-action="Download">
+                <input type="hidden" name="fileGuid" id="download-file-name"/>
+                <button type="submit" class="btn-download">Download</button>
+            </form>
+
+            <form id="form-delete" method="post" asp-controller="File" asp-action="Delete">
+                <input type="hidden" name="fileGuid" id="delete-file-name"/>
+                <button type="submit" class="btn-delete">Delete</button>
+            </form>
+        </div>
+        <div class="file-grid">
+            @foreach (var file in Model)
+            {
+                string extension = file.Extension.Substring(1);
+                string imgPath = Url.Content($"~/lib/file-icon-vectors/dist/icons/square-o/{extension}.svg");
+                string imgClass = $"fiv-sqo fiv-icon-{extension}";
+
+                <div class="file-item">
+                    <button type="button" class="file-button" data-file-guid="@file.FileGuid">
+                        <embed src="@imgPath" width="100px" height="100px"/>
+                        <p id="file-name">@file.Name@file.Extension</p>
+                    </button>
+                </div>
+            }
+        </div>
+    </section>
 </body>
-
-<div class="file-body">
-    @* <div class="file_block">
-        <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
-        <p id="text">.png&#10;MyFile</p>
-    </div> *@
-
-    <div class="file_block">
-        <img src="@Url.Content("~/data/images/IMG_file.png")" width="33" height="54" />
-        <p id="extension">.pdf</p>
-        <p id="filename">OtherFile</p>
-    </div>
-</div>

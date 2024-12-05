@@ -69,4 +69,7 @@ public class FileService : IFileService
 
         return true;
     }
+
+    public async Task<List<Models.File>?> GetAllFilesByUserIdAsync(int userId)
+        => await _fileRepo.GetAllByUserId(userId);
 }

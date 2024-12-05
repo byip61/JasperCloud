@@ -1,4 +1,4 @@
-#container {
+/* #container {
     width: 33px;
 }
 
@@ -60,4 +60,88 @@
 
 .main {
     margin-left: 200px; /* Same as the width of the sidenav */
+/* } */ 
+
+:root {
+  --mcgreen: #036a38;
+  --mclightgreen: #a3d031;
+}
+
+.file-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.file-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100px;
+  padding-bottom: 100px;
+  padding-left: 200px;
+  padding-top: 100px;
+}
+
+.file-icon {
+  width: 50px;
+  height: 50px;
+}
+
+.file-button {
+  width: 200px; 
+  height: 200px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+  text-align: center;
+  box-sizing: border-box;
+  background-color: transparent;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.1s, border-color 0.1s;
+}
+
+.file-button:hover {
+  border-color: var(--mcgreen);
+}
+
+.file-button.selected {
+  background-color: var(--mclightgreen);
+  color: white;
+  border-color: var(--mcgreen);
+}
+
+#download-delete-buttons button {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#download-delete-buttons #form-download button {
+  background-color: var(--mclightgreen);
+  color: white;
+}
+
+#download-delete-buttons #form-download button:hover {
+  background-color: var(--mcgreen);
+}
+
+#download-delete-buttons #form-delete button {
+  background-color: red;
+  color: white;
+}
+
+#download-delete-buttons #form-delete button:hover {
+  background-color: darkred;
+}
+
+#form-download {
+  display: inline;
+}
+
+#form-delete {
+  display: inline;
 }
